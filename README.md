@@ -8,13 +8,13 @@ ChatZero is a real-time chat application built with Spring Boot that enables sec
 
 ### GIF Demonstrations
 
-- **Registration and Adding Friends:**  
-  ![Click here for the "Registering a new User and then adding friends" Demonstration](https://drive.google.com/file/d/104-wRc1f9SVPm10U3frCXMgZu4E_eiSL/view?usp=drive_link)
+* **Registration and Adding Friends:**
+  [Click here for the "Registering a new User and then adding friends" Demonstration](https://drive.google.com/file/d/1dslr_3olPf0CUlQMlgKUI8A1T-FZf530/view?usp=sharing)
 
-- **Real-time Chat Between Multiple Users:**  
-  ![Click here for the video : Real Time Chat Working Demonstration](https://drive.google.com/file/d/1VfND7JIs9KRHP8ullVpZqgX73VXjZn-8/view?usp=drive_link)
+* **Real-time Chat Between Multiple Users:**
+  [Click here for the video: Real-Time Chat Working Demonstration](https://drive.google.com/file/d/1_q1OCp8HXuNU2i7uCqu067gKRX29-RtD/view?usp=sharing)
 
-  
+
 ## 🚀 Features
 
 - **User Authentication**
