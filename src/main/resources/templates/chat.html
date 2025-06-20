@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChatZero - Chat Room</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body class="chat-page" data-user-id="[[${userId}]]">
+  
+  <!-- Header Bar -->
+  <header class="chat-header">
+    <div class="user-info">
+      <div class="user-avatar">
+        <span th:text="${username.substring(0,1).toUpperCase()}"></span>
+      </div>
+      <div class="user-details">
+        <span class="username" th:text="${username}"></span>
+        <span class="user-status"></span>
+      </div>
+    </div>
+    
+    <div class="connection-status" id="connectionStatus">
+      <span class="status-dot"></span>
+      <span class="status-text">Connected</span>
+    </div>
+    
+    <div class="header-actions">
+      <div class="app-logo">
+        <img th:src="@{/ChatZeroLogo.png}" alt="ChatZero">
+        <span>ChatZero</span>
+      </div>
+      <a th:href="@{/logout}" class="logout-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16,17 21,12 16,7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Logout
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="chat-container">
+    
+    <!-- Friends Sidebar -->
+    <aside class="friends-sidebar">
+      <div class="sidebar-header">
+        <h3>Friends</h3>
+      </div>
+      
+      <!-- Add Friend Section -->
+      <div class="add-friend-section">
+        <form id="addFriendForm" onsubmit="return addFriend(event)">
+          <div class="input-group">
+            <input id="addFriendInput" type="text" placeholder="Add friend by username" required />
+            <button type="submit" class="add-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>Add
+            </button>
+          </div>
+          <div id="addFriendResult" class="add-friend-result"></div>
+        </form>
+      </div>
+
+      <!-- Friends List -->
+      <div class="friends-list-container">
+        <ul class="friends-list">
+          <li th:each="f : ${friends}"
+              th:attr="data-id=${f.userId}"
+              class="friend-item"
+              onclick="selectFriend(this)">
+            <div class="friend-avatar">
+              <span th:text="${f.username.substring(0,1).toUpperCase()}"></span>
+            </div>
+            <div class="friend-info">
+              <span class="friend-name" th:text="${f.username}"></span>
+              <span class="friend-status"></span>
+            </div>
+            <div class="unread-badge" style="display: none;">3</div>
+          </li>
+        </ul>
+        
+        <div class="no-friends" th:if="${#lists.isEmpty(friends)}">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <p>No friends yet</p>
+          <span>Add friends to start chatting</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Chat Area -->
+    <main class="chat-area">
+      
+      <!-- Chat Header -->
+      <div class="chat-area-header" id="chatAreaHeader">
+        <div class="chat-friend-info">
+          <div class="chat-friend-avatar">
+            <span id="chatFriendInitial">?</span>
+          </div>
+          <div class="chat-friend-details">
+            <h4 id="chatFriendName">Select a friend to start chatting</h4>
+            
+          </div>
+        </div>
+        <!-- 
+			<div class="chat-actions">
+          <button class="action-btn" title="Call">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+          </button>
+          <button class="action-btn" title="Video Call">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <polygon points="23 7 16 12 23 17 23 7"></polygon>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+          </button>
+        </div>
+		-->
+      </div>
+
+      <!-- Messages Container -->
+      <div class="messages-container" id="chatWindow">
+        <div class="welcome-message">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <h3>Welcome to ChatZero</h3>
+          <p>Select a friend from the sidebar to start a conversation</p>
+        </div>
+      </div>
+
+      <!-- Message Input -->
+      <div class="message-input-container">
+        <div class="input-wrapper">
+          <button class="attach-btn" title="Attach file">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+            </svg>
+          </button>
+          <input id="msgInput" type="text" placeholder="Type your message..." disabled />
+          <button id="sendButton" onclick="sendMessage()" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Scripts -->
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    window.currentUserId = /*[[${userId}]]*/ 0;
+    window.currentUsername = /*[[${username}]]*/ '';
+    /*]]>*/
+  </script>
+  
+  <script th:src="@{/js/chat.js}"></script>
+</body>
+</html>

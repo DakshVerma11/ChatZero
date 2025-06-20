@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+  <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login – ChatZero</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+		<!--
+      <div class="logo">
+        <img th:src="@{/ChatZeroLogo.jpg}" alt="ChatZero Logo">
+      </div>
+	  -->
+      
+      <form th:action="@{/login}" method="post" id="loginForm" onsubmit="return validateCaptcha('login')">
+        <h2>Welcome Back</h2>
+        
+        <div class="input-field">
+          <input type="text" name="username" required>
+          <label>Username or Email</label>
+        </div>
+        
+        <div class="input-field">
+          <input type="password" name="password" required>
+          <label>Password</label>
+        </div>
+        
+        <div class="forget">
+          <label for="remember">
+            <input type="checkbox" id="remember">
+            <p>Remember me</p>
+          </label>
+          <a th:href="@{/forgot-password}">Forgot password?</a>
+        </div>
+        
+        <!-- CAPTCHA Section -->
+        <div class="captcha-container">
+          <div class="g-recaptcha" data-sitekey="6LcT5l0rAAAAAMPuqI3yQuUkZYCCNh65Nucah_V1" id="loginCaptcha"></div>
+        </div>
+        <div id="captcha-error-login" class="captcha-error">
+          Please complete the CAPTCHA verification before submitting.
+        </div>
+        
+        <button type="submit">Log In</button>
+        
+        <!-- Error and success messages -->
+        <div th:if="${param.error}" class="error-message">
+          Invalid credentials. Please try again.
+        </div>
+        <div th:if="${param.logout}" class="success-message">
+          You've been logged out successfully.
+        </div>
+        <div th:if="${param.captcha}" class="error-message">
+          Please complete the CAPTCHA verification.
+        </div>
+        <div th:if="${msg}" class="success-message" th:text="${msg}"></div>
+        
+        <div class="register">
+          <p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Load general app JavaScript -->
+    <script th:src="@{/js/app.js}"></script>
+  </body>
+  </html>

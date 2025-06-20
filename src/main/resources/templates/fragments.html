@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title th:text="${title}">My App</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+  <div th:fragment="layout (title)">
+    <header>
+      <h1 th:text="${title}">My App</h1>
+      <nav>
+        <a th:href="@{/chat}">Chat</a> |
+        <a th:href="@{/logout}">Logout</a>
+      </nav>
+    </header>
+    <main>
+      <div th:insert="~{::content}"></div>
+    </main>
+    <footer>
+      <small>&copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span></small>
+    </footer>
+  </div>
+</body>
+</html>

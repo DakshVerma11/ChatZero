@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register – ChatZero</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+</head>
+<body>
+  <div class="wrapper">
+	<!--
+    <div class="logo">
+      <img th:src="@{/ChatZeroLogo.jpg}" alt="ChatZero Logo">
+    </div>
+	-->
+    
+    <form th:action="@{/register}" method="post" th:object="${user}" id="registerForm" onsubmit="return validateCaptcha('register')">
+      <h2>Join ChatZero</h2>
+      
+      <div class="input-field">
+        <input th:field="*{username}" placeholder="" required>
+        <label>Username</label>
+      </div>
+      <div th:if="${usernameError}" class="error-message" th:text="${usernameError}"></div>
+      
+      <div class="input-field">
+        <input th:field="*{email}" placeholder="" type="email" required>
+        <label>Email Address</label>
+      </div>
+      <div th:if="${emailError}" class="error-message" th:text="${emailError}"></div>
+      
+      <div class="input-field">
+        <input th:field="*{passwordHash}" placeholder="" type="password" required>
+        <label>Password</label>
+      </div>
+      
+      <!-- CAPTCHA Section -->
+      <div class="captcha-container">
+        <div class="g-recaptcha" data-sitekey="6LcT5l0rAAAAAMPuqI3yQuUkZYCCNh65Nucah_V1" id="registerCaptcha"></div>
+      </div>
+      <div id="captcha-error-register" class="captcha-error" style="display: none;">
+        Please complete the CAPTCHA verification before submitting.
+      </div>
+      <div th:if="${captchaError}" class="error-message" th:text="${captchaError}"></div>
+      <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+      
+      <button type="submit">Create Account</button>
+      
+      <div class="login-link">
+        <p>Already have an account? <a th:href="@{/login}">Log in here</a></p>
+      </div>
+    </form>
+  </div>
+
+  <!-- Load general app JavaScript -->
+  <script th:src="@{/js/app.js}"></script>
+</body>
+</html>

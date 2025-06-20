@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome to ChatZero</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="index-page">
+  <div class="wrapper">
+	<!--
+    <div class="logo">
+      <img th:src="@{/ChatZeroLogo.png}" alt="ChatZero Logo">
+    </div>
+	-->
+    <h1>ChatZero</h1>
+    <p>Connect with your friends in real time.<br>Start meaningful conversations that matter.</p>
+	<h1>  </h1>
+    <div class="actions">
+      <a class="btn" th:href="@{/login}">Log In</a>
+      <a class="btn" th:href="@{/register}">Register</a>
+    </div>
+  </div>
+  
+  <!-- Load general app JavaScript -->
+  <script th:src="@{/js/app.js}"></script>
+</body>
+</html>
