@@ -9,10 +9,10 @@ ChatZero is a real-time chat application built with Spring Boot that enables sec
 ### GIF Demonstrations
 
 - **Registration and Adding Friends:**  
-  ![registration_friends.gif](https://drive.google.com/uc?export=view&id=1dslr_3olPf0CUlQMlgKUI8A1T-FZf530)
+  ![Click here for the "Registering a new User and then adding friends" Demonstration](https://drive.google.com/file/d/104-wRc1f9SVPm10U3frCXMgZu4E_eiSL/view?usp=drive_link)
 
 - **Real-time Chat Between Multiple Users:**  
-  ![real_time_chat.gif](https://drive.google.com/uc?export=view&id=1_q1OCp8HXuNU2i7uCqu067gKRX29-RtD)
+  ![Click here for the video : Real Time Chat Working Demonstration](https://drive.google.com/file/d/1VfND7JIs9KRHP8ullVpZqgX73VXjZn-8/view?usp=drive_link)
 
   
 ## 🚀 Features
@@ -87,7 +87,7 @@ chatv2/chat/
 2. **Chat Engine**
    - **WebSocketController**: Facilitates the real-time messaging connection through WebSockets.
    - **MessageController**: Offers REST API endpoints for fetching conversation history and sending messages for testing.
-   - **WebSocketConfig**: Sets up STOMP endpoints and in-memory message broker.
+   - **WebSocketConfig**: Sets up STOMP - Simple Text  Oreinted Messaging Protocol- endpoints and in-memory message broker.
 
 3. **Friend Management**
    - **FriendController**: Manages adding and listing friends.
@@ -113,18 +113,10 @@ chatv2/chat/
 ## 🚀 Installation and Setup
 
 ### Prerequisites
-- Java 17 or higher
+- Java 17 
 - Maven 3.6+
 - MySQL 8.0+
-
-### Database Setup
-Create the database and user using the following commands:
-```sql
-CREATE DATABASE NITReport;
-CREATE USER 'CDAC'@'localhost' IDENTIFIED BY 'nitdelhi';
-GRANT ALL PRIVILEGES ON NITReport.* TO 'CDAC'@'localhost';
-FLUSH PRIVILEGES;
-```
+- 
 
 ### Running the Application
 
@@ -215,7 +207,6 @@ This project was a significant milestone during my internship at CDAC Noida. I g
 - Add group chat functionality.
 - Integrate media file sharing.
 - Implement end-to-end encryption.
-- Enhance mobile responsiveness.
 - Allow user profile customization.
 - Add message search capabilities.
 - Incorporate push notifications for new messages.
