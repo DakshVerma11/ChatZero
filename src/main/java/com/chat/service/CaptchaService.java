@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class CaptchaService {
     
-    private static final String SECRET_KEY = "6LcT5l0rAAAAAG8_vy9qx_z9pM2Rkx4KZak81Vg-";
+    private static final String SECRET_KEY = "your_recaptcha-key";
     private static final String VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
     
     private final RestTemplate restTemplate;
